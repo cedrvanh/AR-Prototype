@@ -8,7 +8,7 @@ loadStaticPlaces = () => {
             }
         },
         {
-            name: "B&W Hout",
+            name: "B&N Hout",
             location: {
                 lat: 50.843022,
                 lng: 3.211548
@@ -23,7 +23,6 @@ loadDynamicPlaces = async (position) => {
         limit: 10, // Max number of results
         clientId: 'FPFNSEYRZIRR3G5SIMVVKWFP4B2OKJU5K1OEQ4CVXLOJPFLI',
         clientSecret: '3YDSGYRG2RQLPAZ2CKYKDL3AMTIU00GSZ3ZRP2RNDRTGXP1D',
-        near: 'Gullegem'
     }
 
     // Foursquare API
@@ -41,19 +40,18 @@ renderPlaces = (places) => {
     places.forEach((place) => {
         const { lat, lng } = place.location;
 
-        const marker = `
-            <a-image 
-                gps-entity-place="latitude: ${lat}; longitude: ${lng}"
-                name="${place.name}"
-                src="../assets/map-marker.png"
-            >
-        `;
-
+        const marker = document.createElement('a-link');
+        marker.setAttribute('gps-entity-place', `latitude: ${lat}; longitude: ${lng};`);
+        marker.setAttribute('title', place.name);
+        
         marker.addEventListener('loaded', () => {
-            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'));
         });
 
         scene.appendChild(marker);
+
+        console.log(marker);
+        console.log(scene);
     })
 };
 
